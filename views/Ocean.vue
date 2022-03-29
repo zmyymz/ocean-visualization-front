@@ -238,7 +238,7 @@ export default {
     },
     fileSubmit() {
       let _this = this
-      this.$MessageBox.alert('请将nc文件放置到home/user_ocean_data,然后点击确定', '提示', {
+      this.$MessageBox.alert('请将nc文件放置到/home/user_ocean_data,然后点击确定', '提示', {
         confirmButtonText: '确定',
         callback: action => {
           if (action === 'confirm') {

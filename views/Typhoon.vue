@@ -141,7 +141,7 @@ body, html {
 
 .box {
   /* display: inline-block; */
-  width: 80%;
+  width: 94%;
   height: 100%;
   margin: 0 auto;
 }

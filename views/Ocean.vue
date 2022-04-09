@@ -50,27 +50,27 @@
           <div style="margin-left:5%;">
             <el-radio-group class="group" clearable=true v-model="radio" @change="getRadio">
               <div class="type">
-                <el-radio :label='"SSH"'>ssh</el-radio>
+                <el-radio :label='"SSH"'>有效波高(ssh)</el-radio>
                 <div class="choose">
                   <table>
                     <el-checkbox-group v-model="sshList">
                       <tr>
                         <td>
-                          <el-checkbox label="v1">Real</el-checkbox>
+                          <el-checkbox label="v1">真实值</el-checkbox>
                         </td>
                         <td>
-                          <el-checkbox label="v2">Pred</el-checkbox>
+                          <el-checkbox label="v2">预测值</el-checkbox>
                         </td>
                         <td>
-                          <el-checkbox label="v3">Corr</el-checkbox>
+                          <el-checkbox label="v3">订正值</el-checkbox>
                         </td>
                       </tr>
                       <tr>
                         <td colspan="2">
-                          <el-checkbox label="v4">Error_Before</el-checkbox>
+                          <el-checkbox label="v4">订正前</el-checkbox>
                         </td>
                         <td style="width: 40%;">
-                          <el-checkbox label="v5">Error_After</el-checkbox>
+                          <el-checkbox label="v5">订正后</el-checkbox>
                         </td>
                       </tr>
                     </el-checkbox-group>
@@ -78,27 +78,27 @@
                 </div>
               </div>
               <div class="type">
-                <el-radio :label='"temp"'>temperature</el-radio>
+                <el-radio :label='"temp"'>海温(temperature)</el-radio>
                 <div class="choose">
                   <table>
                     <el-checkbox-group v-model="tempList">
                       <tr>
                         <td>
-                          <el-checkbox label="v1">Real</el-checkbox>
+                          <el-checkbox label="v1">真实值</el-checkbox>
                         </td>
                         <td>
-                          <el-checkbox label="v2">Pred</el-checkbox>
+                          <el-checkbox label="v2">预测值</el-checkbox>
                         </td>
                         <td>
-                          <el-checkbox label="v3">Corr</el-checkbox>
+                          <el-checkbox label="v3">订正值</el-checkbox>
                         </td>
                       </tr>
                       <tr>
                         <td colspan="2">
-                          <el-checkbox label="v4">Error_Before</el-checkbox>
+                          <el-checkbox label="v4">订正前</el-checkbox>
                         </td>
                         <td style="width: 40%;">
-                          <el-checkbox label="v5">Error_After</el-checkbox>
+                          <el-checkbox label="v5">订正后</el-checkbox>
                         </td>
                       </tr>
                     </el-checkbox-group>
@@ -106,27 +106,27 @@
                 </div>
               </div>
               <div class="type">
-                <el-radio :label='"SWH"'>swh</el-radio>
+                <el-radio :label='"SWH"'>综合水位(swh)</el-radio>
                 <div class="choose">
                   <table>
                     <el-checkbox-group v-model="swhList">
                       <tr>
                         <td>
-                          <el-checkbox label="v1">Real</el-checkbox>
+                          <el-checkbox label="v1">真实值</el-checkbox>
                         </td>
                         <td>
-                          <el-checkbox label="v2">Pred</el-checkbox>
+                          <el-checkbox label="v2">预测值</el-checkbox>
                         </td>
                         <td>
-                          <el-checkbox label="v3">Corr</el-checkbox>
+                          <el-checkbox label="v3">订正值</el-checkbox>
                         </td>
                       </tr>
                       <tr>
                         <td colspan="2">
-                          <el-checkbox label="v4">Error_Before</el-checkbox>
+                          <el-checkbox label="v4">订正前</el-checkbox>
                         </td>
                         <td style="width: 40%;">
-                          <el-checkbox label="v5">Error_After</el-checkbox>
+                          <el-checkbox label="v5">订正后</el-checkbox>
                         </td>
                       </tr>
                     </el-checkbox-group>
@@ -134,27 +134,27 @@
                 </div>
               </div>
               <div class="type">
-                <el-radio :label='"wave_direction"'>wave_direction</el-radio>
+                <el-radio :label='"wave_direction"'>波向(wave_direction)</el-radio>
                 <div class="choose">
                   <table>
                     <el-checkbox-group v-model="waveList">
                       <tr>
                         <td>
-                          <el-checkbox label="v1">Fore</el-checkbox>
+                          <el-checkbox label="v1">预报值</el-checkbox>
                         </td>
                         <td>
-                          <el-checkbox label="v2">Pred</el-checkbox>
+                          <el-checkbox label="v2">预测值</el-checkbox>
                         </td>
                         <td>
-                          <el-checkbox label="v3">Re</el-checkbox>
+                          <el-checkbox label="v3">再分析数据</el-checkbox>
                         </td>
                       </tr>
                       <tr>
                         <td colspan="2">
-                          <el-checkbox label="v4">Re-fore</el-checkbox>
+                          <el-checkbox label="v4">再分析数据预报结果</el-checkbox>
                         </td>
                         <td style="width: 40%;">
-                          <el-checkbox label="v5">Re-pred</el-checkbox>
+                          <el-checkbox label="v5">再分析数据预测结果</el-checkbox>
                         </td>
                       </tr>
                     </el-checkbox-group>
@@ -201,13 +201,37 @@ import Map from "ol/Map";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
-import ScaleLine from "ol/control/ScaleLine";
+import { ScaleLine } from "ol/control";
 import MousePosition from "ol/control/MousePosition"
-import {fromLonLat} from "ol/proj";
+import { fromLonLat } from "ol/proj";
 import {Loading} from "element-ui"
 import TileWMS from "ol/source/TileWMS";
-import {OverviewMap, defaults as defaultControls} from "ol/control";
+import {OverviewMap, defaults as defaultControls } from "ol/control";
 import {format} from "ol/coordinate";
+import {isEmpty} from 'ol/extent';
+import {isNull} from 'ol/format/filter';
+import { FullScreen } from 'ol/control';
+import { ZoomToExtent } from "ol/control";
+import { Rotate } from "ol/control";
+import { ZoomSlider } from "ol/control";
+import {
+  createStringXY,
+  toStringHDMS
+} from 'ol/coordinate.js';
+import {
+  defaults as defaultInteractions,
+  DragRotateAndZoom,
+} from 'ol/interaction';
+// import Legend from 'ol-ext/control/Legend';
+import OlFeature from 'ol/Feature'
+import OlGeomPoint from 'ol/geom/Point'
+import OlLayerVector from 'ol/layer/Vector'
+import OlSourceVector from 'ol/source/Vector'
+import OlStyleStyle from 'ol/style/Style'
+import OlStyleIcon from 'ol/style/Icon'
+// 用来添加相关文字描述的
+import Text from 'ol/style/Text' 
+import Fill from 'ol/style/Fill'
 
 export default {
   data() {
@@ -227,6 +251,8 @@ export default {
       middle_names: [],
       maps: [],
       wmsLayers: [],
+      vectorLayers: [],
+      coordinates:[130,12],
     };
   },
   components: {
@@ -270,11 +296,12 @@ export default {
 
     initMap(id) {
       //   console.log("hello")
-      var tdtLayer = new TileLayer({
+      let tdtLayer = new TileLayer({
         title: "谷歌矢量地图服务",
         source: new XYZ({
           // arcgis server
           url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetWarm/MapServer/tile/{z}/{y}/{x}'
+          // url: 'http://t4.tianditu.com/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
         })
       });
       let map = new Map({
@@ -287,13 +314,15 @@ export default {
           center: [113, 12],
           zoom: 4
         }),
+        interactions: defaultInteractions().extend([new DragRotateAndZoom()]),  //旋转
         controls: defaultControls().extend([
-          new ScaleLine({
-            //设置度量单位为米
-            units: 'metric',
-            target: 'scalebar',
-            className: 'ol-scale-line1'
-          }),
+          // new ScaleLine({
+          //   //设置度量单位为米
+          //   units: 'metric',
+          //   target: 'scalebar',
+          //   className: 'ol-scale-line1'
+          // }),
+          
           new MousePosition({
             coordinateFormat: function (coordinate) {
               return format(coordinate, '经度:{x} 纬度:{y}', 2);
@@ -302,18 +331,37 @@ export default {
             className: 'custom-mouse-position',
             target: document.getElementsByClassName('lnglat')[id],
             undefinedHTML: '&nbsp;'
-          })
+          }),
+          
         ])
-      })
-      this.maps.push(map);
-      this.showInfo(id);
+      });
+      
+      var mousePosition = 'mouse-position';
+        var mousePositionControl = new MousePosition({
+            coordinateFormat: function (coordinate) {
+              return format(coordinate, '经度:{x} 纬度:{y}', 2);
+            },
+            projection: 'EPSG:4326',
+            className: 'custom-mouse-position',
+            target: document.getElementById(mousePosition),
+            undefinedHTML:    '&#160;'
+        });
+        
+        
+        // 显示经纬度 
+        map.addControl(mousePositionControl);
+        map.addControl(new FullScreen());
+        map.addControl(new ScaleLine());
+        this.maps.push(map);
+        this.showInfo(id);
     },
 
     showInfo(id) {
       let _this = this;
       _this.maps[id].on("moveend", function (e) {
-        let value = "Scale 1 : " + document.getElementsByClassName("ol-scale-line1-inner")[id].innerHTML;
-        document.getElementsByClassName("scale")[id].innerHTML = value;
+        // let value = "Scale 1 : " + document.getElementsByClassName("ol-scale-line1-inner")[id].innerHTML;
+        // document.getElementsByClassName("scale")[id].innerHTML = value;
+        
         let extent = _this.maps[id].getView().calculateExtent()
         let geLng = (extent[2] - extent[0]) / 5
         let geLat = (extent[3] - extent[1]) / 5
@@ -330,6 +378,8 @@ export default {
 
       this.maps[id].on('singleclick', async (e) => {
         let coor = e.coordinate;
+        this.coordinates[0] = e.coordinate[0];
+        this.coordinates[1] = e.coordinate[1];
         let bbox = (coor[0] - 2) + "," + (coor[1] - 2) + "," + (coor[0] + 2) + "," + (coor[1] + 2)
         let viewResolution = _this.maps[id].getView().getResolution();
         let url = _this.wmsLayers[id]
@@ -411,17 +461,66 @@ export default {
         } else {
           let riqi = this.value1 + " " + this.value2;
           let shijianchuo = (new Date(riqi)).getTime(); //时间戳
-          for (let i = 0; i < this.wmsLayers.length; i++) { //清空所有图层
-            this.maps[i] && this.maps[i].removeLayer(this.wmsLayers[i])
+          for (let i = 0; i < this.wmsLayers.length; i++) { 
+            this.maps[i] && this.maps[i].removeLayer(this.wmsLayers[i]);    //清空所有图层
+            // this.maps[i] && this.maps[i].removeLayer(this.vectorLayers[i]); //清空所有图例
           }
 
           this.wmsLayers = [];
+          this.vectorLayers = [];
           for (let i = 0; i < 5; i++) {
             let map = this.maps[i];
             let middle_name = this.middle_names[i]
             let first_name = this.radio
 
-            document.getElementsByClassName("maptitle")[i].innerHTML = first_name + "_" + middle_name;
+            // document.getElementsByClassName("maptitle")[i].innerHTML = first_name + "_" + middle_name;
+            var firstName = '';
+            var middleName = '';
+            if(first_name == 'SSH'){
+              firstName = '有效波高(ssh)';
+            }
+            else if(first_name == 'temp'){
+              firstName = '海温(temperature)';
+            }
+            else if(first_name == 'SWH'){
+              firstName = '综合水位(swh)';
+            }
+            else if(first_name == 'wave_direction'){
+              firstName = '波向(wave_direction)';
+            }
+
+            if(middle_name == 'Real'){
+              middleName = '真实值';
+            }
+            else if(middle_name == 'pred'){
+              middleName = '预测值';
+            }
+            else if(middle_name == 'Corr'){
+              middleName = '订正值';
+            }
+            else if(middle_name == 'Error_Before'){
+              middleName = '订正前';
+            }
+            else if(middle_name == 'Error_After'){
+              middleName = '订正后';
+            }
+            else if(middle_name == 'forecast'){
+              middleName = '预报值';
+            }
+            else if(middle_name == 'predict'){
+              middleName = '预测值';
+            }
+            else if(middle_name == 'reanalysis'){
+              middleName = '再分析数据';
+            }
+            else if(middle_name == 'reanalysis-forecast'){
+              middleName = '再分析数据预报结果';
+             }
+            else if(middle_name == 'reanalysis-predict'){
+              middleName = '再分析数据预报结果';
+            }
+                        
+            document.getElementsByClassName("maptitle")[i].innerHTML = firstName + "_" + middleName;            
             if (first_name === 'temp') {
               if (middle_name === 'pred') {
                 middle_name = 'fore'
@@ -472,12 +571,42 @@ export default {
       map.addLayer(layers)
 
       let graphicUrl = tileWMS.getLegendUrl(map.getView().getResolution())
-
       let img = document.getElementsByClassName("legend1")[index];
       console.log(tileWMS)
       img.src = graphicUrl;
+      
+      // 在地图里添加图例
+      // var startMarker = new OlFeature({
+      //   type: 'icon',
+      //   geometry: new OlGeomPoint([this.coordinates[0]+5, this.coordinates[1]])
+      // })
+
+      // var vectorLayer = new OlLayerVector({
+      //   source: new OlSourceVector({
+      //     features: [startMarker]
+      //   }),
+      //   style: new OlStyleStyle({
+      //     image: new OlStyleIcon({
+      //       anchor: [0.5, 1],
+      //       src: graphicUrl
+            
+      //     }),
+      //     // 设置图片下面显示字体的样式和内容
+      //     text: new Text({
+      //       text: '图例', 
+      //       font: '14px font-size', 
+      //       fill: new Fill({
+      //         color: '#1CAF9A'
+      //       }),
+      //       offsetY: 10
+      //     })
+      //   })
+      // })
+      // this.vectorLayers.push(vectorLayer);
+      // map.addLayer(vectorLayer);
     }
   },
+
   mounted() {
     for (let i = 0; i < 5; i++) {
       this.initMap(i);
@@ -487,6 +616,10 @@ export default {
 </script>
 
 <style>
+.mouse-position{
+  bottom: 50%;
+}
+
 body, html {
   height: 100%;
   background-color: #F3F2F3;

@@ -172,6 +172,7 @@
         </div>
 
       </div>
+      <!-- <div id="mouse-position"></div> -->
       <div class="vis-content">   <!--可视化区域-->
         <div class="vis">
           <OceanMap ref="map1"/>
@@ -191,6 +192,8 @@
       </div>
     </div>
   </div>
+
+  
 
 </template>
 
@@ -232,7 +235,6 @@ import OlStyleIcon from 'ol/style/Icon'
 // 用来添加相关文字描述的
 import Text from 'ol/style/Text'
 import Fill from 'ol/style/Fill'
-
 export default {
   data() {
     return {
@@ -288,12 +290,10 @@ export default {
                     _this.$Message('发生异常 ' + response.data.message);
                   }
                 })
-
           }
         }
       });
     },
-
     initMap(id) {
       //   console.log("hello")
       let tdtLayer = new TileLayer({
@@ -322,7 +322,6 @@ export default {
           //   target: 'scalebar',
           //   className: 'ol-scale-line1'
           // }),
-
           new MousePosition({
             coordinateFormat: function (coordinate) {
               return format(coordinate, '经度:{x} 纬度:{y}', 2);
@@ -332,22 +331,20 @@ export default {
             target: document.getElementsByClassName('lnglat')[id],
             undefinedHTML: '&nbsp;'
           }),
-
         ])
       });
-
+      
       var mousePosition = 'mouse-position';
       var mousePositionControl = new MousePosition({
         coordinateFormat: function (coordinate) {
           return format(coordinate, '经度:{x} 纬度:{y}', 2);
         },
         projection: 'EPSG:4326',
-        className: 'custom-mouse-position',
+        className: 'custom-position',
         target: document.getElementById(mousePosition),
         undefinedHTML: '&#160;'
       });
-
-
+      
       // 显示经纬度
       map.addControl(mousePositionControl);
       map.addControl(new FullScreen());
@@ -355,13 +352,11 @@ export default {
       this.maps.push(map);
       this.showInfo(id);
     },
-
     showInfo(id) {
       let _this = this;
       _this.maps[id].on("moveend", function (e) {
         // let value = "Scale 1 : " + document.getElementsByClassName("ol-scale-line1-inner")[id].innerHTML;
         // document.getElementsByClassName("scale")[id].innerHTML = value;
-
         let extent = _this.maps[id].getView().calculateExtent()
         let geLng = (extent[2] - extent[0]) / 5
         let geLat = (extent[3] - extent[1]) / 5
@@ -375,7 +370,6 @@ export default {
         document.getElementsByClassName("top1")[id].innerHTML = heng;
         // $(".top1").html(heng)
       })
-
       this.maps[id].on('singleclick', async (e) => {
         let coor = e.coordinate;
         this.coordinates[0] = e.coordinate[0];
@@ -412,7 +406,6 @@ export default {
         }
       }
     },
-
     draw() {
       this.middle_names = []
       if (this.value1 === '' || this.value2 === '') {
@@ -430,7 +423,6 @@ export default {
           } else {
             list = this.sshList;
             this.getMiddle(list, this.select1);
-
           }
         } else if (type === 'temp') {
           if (this.tempList.length === 0) {
@@ -454,7 +446,6 @@ export default {
             this.getMiddle(list, this.select2);
           }
         }
-
         if (isEmpty) {
           alert("请勾选有单选框的复选框选项");
           return;
@@ -465,15 +456,14 @@ export default {
             this.maps[i] && this.maps[i].removeLayer(this.wmsLayers[i]);    //清空所有图层
             // this.maps[i] && this.maps[i].removeLayer(this.vectorLayers[i]); //清空所有图例
           }
-
           this.wmsLayers = [];
           this.vectorLayers = [];
           for (let i = 0; i < 5; i++) {
             let map = this.maps[i];
             let middle_name = this.middle_names[i]
             let first_name = this.radio
-
             // document.getElementsByClassName("maptitle")[i].innerHTML = first_name + "_" + middle_name;
+            
             var firstName = '';
             var middleName = '';
             if (first_name === 'SSH') {
@@ -485,7 +475,6 @@ export default {
             } else if (first_name === 'wave_direction') {
               firstName = '波向(wave_direction)';
             }
-
             if (middle_name === 'Real') {
               middleName = '真实值';
             } else if (middle_name === 'pred') {
@@ -507,7 +496,6 @@ export default {
             } else if (middle_name === 'reanalysis-predict') {
               middleName = '再分析数据预报结果';
             }
-
             document.getElementsByClassName("maptitle")[i].innerHTML = firstName + "_" + middleName;
             if (first_name === 'temp') {
               if (middle_name === 'pred') {
@@ -521,20 +509,18 @@ export default {
 
             let name = first_name + "_" + middle_name + "_" + shijianchuo
             this.mylayer = 'cite:' + name
-
             this.init(map, i)
           }
         }
       }
     },
-
-
     getRadio() {
       this.sshList = []
       this.tempList = []
       this.swhList = []
       this.waveList = []
     },
+    
     //  渲染图层
     init(map, index) {
       let tileWMS = new TileWMS({
@@ -557,44 +543,40 @@ export default {
           });
       this.wmsLayers.push(layers)
       map.addLayer(layers)
-
       let graphicUrl = tileWMS.getLegendUrl(map.getView().getResolution())
       let img = document.getElementsByClassName("legend1")[index];
       console.log(tileWMS)
       img.src = graphicUrl;
-
+      
       // 在地图里添加图例
-      var startMarker = new OlFeature({
-        type: 'icon',
-        geometry: new OlGeomPoint([this.coordinates[0] + 5, this.coordinates[1]])
-      })
-
-      var vectorLayer = new OlLayerVector({
-        source: new OlSourceVector({
-          features: [startMarker]
-        }),
-        style: new OlStyleStyle({
-          image: new OlStyleIcon({
-            anchor: [0.5, 1],
-            src: graphicUrl
-
-          }),
-          // 设置图片下面显示字体的样式和内容
-          text: new Text({
-            text: '图例',
-            font: '14px font-size',
-            fill: new Fill({
-              color: '#000000'
-            }),
-            offsetY: 10
-          })
-        })
-      })
-      this.vectorLayers.push(vectorLayer);
-      map.addLayer(vectorLayer);
+      // var startMarker = new OlFeature({
+      //   type: 'icon',
+      //   geometry: new OlGeomPoint([this.coordinates[0] + 5, this.coordinates[1]])
+      // })
+      // var vectorLayer = new OlLayerVector({
+      //   source: new OlSourceVector({
+      //     features: [startMarker]
+      //   }),
+      //   style: new OlStyleStyle({
+      //     image: new OlStyleIcon({
+      //       anchor: [0.5, 1],
+      //       src: graphicUrl
+      //     }),
+      //     // 设置图片下面显示字体的样式和内容
+      //     text: new Text({
+      //       text: '图例',
+      //       font: '14px font-size',
+      //       fill: new Fill({
+      //         color: '#000000'
+      //       }),
+      //       offsetY: 10
+      //     })
+      //   })
+      // })
+      // this.vectorLayers.push(vectorLayer);
+      // map.addLayer(vectorLayer);
     }
   },
-
   mounted() {
     for (let i = 0; i < 5; i++) {
       this.initMap(i);
@@ -604,35 +586,31 @@ export default {
 </script>
 
 <style>
-.mouse-position {
-  bottom: 50%;
+.custom-position {
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 50px;
 }
-
 body, html {
   height: 100%;
   background-color: #F3F2F3;
   margin: 0;
   /* text-align: center; */
 }
-
 .box {
   /* display: inline-block; */
   width: 94%;
   height: 100%;
   margin: 0 auto;
 }
-
 .box .title {
   margin-left: 3%;
 }
-
 .box .container {
   width: 100%;
   text-align: center;
   margin-left: -2%;
-
 }
-
 #dashboard {
   float: left;
   height: calc(100% - 10px);
@@ -641,7 +619,6 @@ body, html {
   margin-top: 10px;
   background-color: white;
 }
-
 .box .vis-content {
   float: left;
   height: calc(100% - 10px);
@@ -651,12 +628,10 @@ body, html {
   display: flex;
   flex-wrap: wrap;
 }
-
 .box .vis-content .vis {
   width: 33%;
   height: 50%;
 }
-
 #dashboard #sub_btn {
   width: 131px;
   height: 33px;
@@ -668,48 +643,39 @@ body, html {
   font-size: 14px;
   border-radius: 5px;
 }
-
 #dashboard .squ-checkbox {
   margin-right: 3%;
 }
-
 #dashboard .type {
   display: block;
   width: 100%;
 }
-
 .el-radio-group {
   width: 100%;
 }
-
 #dashboard .choose {
   padding-left: 8%;
   margin-bottom: 4%;
   margin-top: 1%;
 }
-
 #dashboard .choose table {
   width: 84%;
   border: 0;
 }
-
 #dashboard .choose table tr {
   width: 100%;
 }
-
 #dashboard .choose table td {
   height: 25px;
   width: 37%;
   margin-left: 5px;
   /* display: inline-block; */
 }
-
 #dashboard .center {
   /* margin-left: -15%; */
   margin-top: 3%;
   text-align: center
 }
-
 #dashboard #draw_btn, #dashboard #data_btn {
   width: 80%;
   height: 33px;
@@ -721,7 +687,6 @@ body, html {
   font-size: 14px;
   border-radius: 5px;
 }
-
 #dashboard .split {
   width: 90%;
   margin: 0 auto;
@@ -729,7 +694,6 @@ body, html {
   background-color: #EEEEEE;
   height: 0.1px;
 }
-
 .container #date {
   float: left;
   margin-left: 2%;
@@ -737,38 +701,30 @@ body, html {
   line-height: 30px;
   margin-right: 1%;
 }
-
 .container .form-horizontal {
   float: left;
 }
-
 .el-input__inner {
   height: 33px;
   line-height: 33px;
 }
-
 .el-input__icon {
   line-height: 33px;
 }
-
 .el-date-editor.el-input {
   width: 180px;
   margin: 0 3px;
 }
-
 .el-radio {
   font-weight: 700;
 }
-
 .el-radio__label, .el-checkbox__label {
   font-size: 15px;
 }
-
 .el-divider--horizontal {
   width: 90%;
   margin: 24px auto
 }
-
 title1 {
   left: 200px;
   bottom: 200px;

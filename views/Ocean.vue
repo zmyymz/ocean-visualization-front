@@ -316,12 +316,12 @@ export default {
         }),
         interactions: defaultInteractions().extend([new DragRotateAndZoom()]),  //旋转
         controls: defaultControls().extend([
-          new ScaleLine({
-            //设置度量单位为米
-            units: 'metric',
-            target: 'scalebar',
-            className: 'ol-scale-line1'
-          }),
+          // new ScaleLine({
+          //   //设置度量单位为米
+          //   units: 'metric',
+          //   target: 'scalebar',
+          //   className: 'ol-scale-line1'
+          // }),
 
           new MousePosition({
             coordinateFormat: function (coordinate) {
@@ -359,8 +359,8 @@ export default {
     showInfo(id) {
       let _this = this;
       _this.maps[id].on("moveend", function (e) {
-        let value = "Scale 1 : " + document.getElementsByClassName("ol-scale-line1-inner")[id].innerHTML;
-        document.getElementsByClassName("scale")[id].innerHTML = value;
+        // let value = "Scale 1 : " + document.getElementsByClassName("ol-scale-line1-inner")[id].innerHTML;
+        // document.getElementsByClassName("scale")[id].innerHTML = value;
 
         let extent = _this.maps[id].getView().calculateExtent()
         let geLng = (extent[2] - extent[0]) / 5

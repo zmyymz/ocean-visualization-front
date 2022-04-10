@@ -172,6 +172,7 @@
         </div>
 
       </div>
+      <!-- <div id="mouse-position"></div> -->
       <div class="vis-content">   <!--可视化区域-->
         <div class="vis">
           <OceanMap ref="map1"/>
@@ -191,6 +192,7 @@
       </div>
     </div>
   </div>
+
 
 </template>
 
@@ -288,12 +290,10 @@ export default {
                     _this.$Message('发生异常 ' + response.data.message);
                   }
                 })
-
           }
         }
       });
     },
-
     initMap(id) {
       //   console.log("hello")
       let tdtLayer = new TileLayer({
@@ -322,17 +322,15 @@ export default {
           //   target: 'scalebar',
           //   className: 'ol-scale-line1'
           // }),
-
-          new MousePosition({
-            coordinateFormat: function (coordinate) {
-              return format(coordinate, '经度:{x} 纬度:{y}', 2);
-            },
-            projection: 'EPSG:4326',
-            className: 'custom-mouse-position',
-            target: document.getElementsByClassName('lnglat')[id],
-            undefinedHTML: '&nbsp;'
-          }),
-
+          // new MousePosition({
+          //   coordinateFormat: function (coordinate) {
+          //     return format(coordinate, '经度:{x} 纬度:{y}', 2);
+          //   },
+          //   projection: 'EPSG:4326',
+          //   className: 'custom-mouse-position',
+          //   target: document.getElementsByClassName('lnglat')[id],
+          //   undefinedHTML: '&nbsp;'
+          // }),
         ])
       });
 
@@ -342,11 +340,10 @@ export default {
           return format(coordinate, '经度:{x} 纬度:{y}', 2);
         },
         projection: 'EPSG:4326',
-        className: 'custom-mouse-position',
+        className: 'custom-position',
         target: document.getElementById(mousePosition),
         undefinedHTML: '&#160;'
       });
-
 
       // 显示经纬度
       map.addControl(mousePositionControl);
@@ -355,13 +352,11 @@ export default {
       this.maps.push(map);
       this.showInfo(id);
     },
-
     showInfo(id) {
       let _this = this;
       _this.maps[id].on("moveend", function (e) {
         // let value = "Scale 1 : " + document.getElementsByClassName("ol-scale-line1-inner")[id].innerHTML;
         // document.getElementsByClassName("scale")[id].innerHTML = value;
-
         let extent = _this.maps[id].getView().calculateExtent()
         let geLng = (extent[2] - extent[0]) / 5
         let geLat = (extent[3] - extent[1]) / 5
@@ -375,7 +370,6 @@ export default {
         document.getElementsByClassName("top1")[id].innerHTML = heng;
         // $(".top1").html(heng)
       })
-
       this.maps[id].on('singleclick', async (e) => {
         let coor = e.coordinate;
         this.coordinates[0] = e.coordinate[0];
@@ -412,7 +406,6 @@ export default {
         }
       }
     },
-
     draw() {
       this.middle_names = []
       if (this.value1 === '' || this.value2 === '') {
@@ -430,7 +423,6 @@ export default {
           } else {
             list = this.sshList;
             this.getMiddle(list, this.select1);
-
           }
         } else if (type === 'temp') {
           if (this.tempList.length === 0) {
@@ -454,7 +446,6 @@ export default {
             this.getMiddle(list, this.select2);
           }
         }
-
         if (isEmpty) {
           alert("请勾选有单选框的复选框选项");
           return;
@@ -465,15 +456,14 @@ export default {
             this.maps[i] && this.maps[i].removeLayer(this.wmsLayers[i]);    //清空所有图层
             // this.maps[i] && this.maps[i].removeLayer(this.vectorLayers[i]); //清空所有图例
           }
-
           this.wmsLayers = [];
           this.vectorLayers = [];
           for (let i = 0; i < 5; i++) {
             let map = this.maps[i];
             let middle_name = this.middle_names[i]
             let first_name = this.radio
-
             // document.getElementsByClassName("maptitle")[i].innerHTML = first_name + "_" + middle_name;
+
             var firstName = '';
             var middleName = '';
             if (first_name === 'SSH') {
@@ -485,7 +475,6 @@ export default {
             } else if (first_name === 'wave_direction') {
               firstName = '波向(wave_direction)';
             }
-
             if (middle_name === 'Real') {
               middleName = '真实值';
             } else if (middle_name === 'pred') {
@@ -507,7 +496,6 @@ export default {
             } else if (middle_name === 'reanalysis-predict') {
               middleName = '再分析数据预报结果';
             }
-
             document.getElementsByClassName("maptitle")[i].innerHTML = firstName + "_" + middleName;
             if (first_name === 'temp') {
               if (middle_name === 'pred') {
@@ -521,20 +509,18 @@ export default {
 
             let name = first_name + "_" + middle_name + "_" + shijianchuo
             this.mylayer = 'cite:' + name
-
             this.init(map, i)
           }
         }
       }
     },
-
-
     getRadio() {
       this.sshList = []
       this.tempList = []
       this.swhList = []
       this.waveList = []
     },
+
     //  渲染图层
     init(map, index) {
       let tileWMS = new TileWMS({
@@ -557,7 +543,6 @@ export default {
           });
       this.wmsLayers.push(layers)
       map.addLayer(layers)
-
       let graphicUrl = tileWMS.getLegendUrl(map.getView().getResolution())
       let img = document.getElementsByClassName("legend1")[index];
       console.log(tileWMS)
@@ -568,7 +553,6 @@ export default {
         type: 'icon',
         geometry: new OlGeomPoint([this.coordinates[0] + 5, this.coordinates[1]])
       })
-
       var vectorLayer = new OlLayerVector({
         source: new OlSourceVector({
           features: [startMarker]
@@ -577,7 +561,6 @@ export default {
           image: new OlStyleIcon({
             anchor: [0.5, 1],
             src: graphicUrl
-
           }),
           // 设置图片下面显示字体的样式和内容
           text: new Text({
@@ -594,7 +577,6 @@ export default {
       map.addLayer(vectorLayer);
     }
   },
-
   mounted() {
     for (let i = 0; i < 5; i++) {
       this.initMap(i);
@@ -604,8 +586,10 @@ export default {
 </script>
 
 <style>
-.mouse-position {
-  bottom: 50%;
+.custom-position {
+  text-align: center;
+  font-size: 12px;
+  margin-bottom: 50px;
 }
 
 body, html {
@@ -630,7 +614,6 @@ body, html {
   width: 100%;
   text-align: center;
   margin-left: -2%;
-
 }
 
 #dashboard {

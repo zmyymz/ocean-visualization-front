@@ -201,19 +201,19 @@ import Map from "ol/Map";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
-import { ScaleLine } from "ol/control";
+import {ScaleLine} from "ol/control";
 import MousePosition from "ol/control/MousePosition"
-import { fromLonLat } from "ol/proj";
+import {fromLonLat} from "ol/proj";
 import {Loading} from "element-ui"
 import TileWMS from "ol/source/TileWMS";
-import {OverviewMap, defaults as defaultControls } from "ol/control";
+import {OverviewMap, defaults as defaultControls} from "ol/control";
 import {format} from "ol/coordinate";
 import {isEmpty} from 'ol/extent';
 import {isNull} from 'ol/format/filter';
-import { FullScreen } from 'ol/control';
-import { ZoomToExtent } from "ol/control";
-import { Rotate } from "ol/control";
-import { ZoomSlider } from "ol/control";
+import {FullScreen} from 'ol/control';
+import {ZoomToExtent} from "ol/control";
+import {Rotate} from "ol/control";
+import {ZoomSlider} from "ol/control";
 import {
   createStringXY,
   toStringHDMS
@@ -230,7 +230,7 @@ import OlSourceVector from 'ol/source/Vector'
 import OlStyleStyle from 'ol/style/Style'
 import OlStyleIcon from 'ol/style/Icon'
 // 用来添加相关文字描述的
-import Text from 'ol/style/Text' 
+import Text from 'ol/style/Text'
 import Fill from 'ol/style/Fill'
 
 export default {
@@ -252,7 +252,7 @@ export default {
       maps: [],
       wmsLayers: [],
       vectorLayers: [],
-      coordinates:[130,12],
+      coordinates: [130, 12],
     };
   },
   components: {
@@ -322,7 +322,7 @@ export default {
           //   target: 'scalebar',
           //   className: 'ol-scale-line1'
           // }),
-          
+
           new MousePosition({
             coordinateFormat: function (coordinate) {
               return format(coordinate, '经度:{x} 纬度:{y}', 2);
@@ -332,28 +332,28 @@ export default {
             target: document.getElementsByClassName('lnglat')[id],
             undefinedHTML: '&nbsp;'
           }),
-          
+
         ])
       });
-      
+
       var mousePosition = 'mouse-position';
-        var mousePositionControl = new MousePosition({
-            coordinateFormat: function (coordinate) {
-              return format(coordinate, '经度:{x} 纬度:{y}', 2);
-            },
-            projection: 'EPSG:4326',
-            className: 'custom-mouse-position',
-            target: document.getElementById(mousePosition),
-            undefinedHTML:    '&#160;'
-        });
-        
-        
-        // 显示经纬度 
-        map.addControl(mousePositionControl);
-        map.addControl(new FullScreen());
-        map.addControl(new ScaleLine());
-        this.maps.push(map);
-        this.showInfo(id);
+      var mousePositionControl = new MousePosition({
+        coordinateFormat: function (coordinate) {
+          return format(coordinate, '经度:{x} 纬度:{y}', 2);
+        },
+        projection: 'EPSG:4326',
+        className: 'custom-mouse-position',
+        target: document.getElementById(mousePosition),
+        undefinedHTML: '&#160;'
+      });
+
+
+      // 显示经纬度
+      map.addControl(mousePositionControl);
+      map.addControl(new FullScreen());
+      map.addControl(new ScaleLine());
+      this.maps.push(map);
+      this.showInfo(id);
     },
 
     showInfo(id) {
@@ -361,7 +361,7 @@ export default {
       _this.maps[id].on("moveend", function (e) {
         // let value = "Scale 1 : " + document.getElementsByClassName("ol-scale-line1-inner")[id].innerHTML;
         // document.getElementsByClassName("scale")[id].innerHTML = value;
-        
+
         let extent = _this.maps[id].getView().calculateExtent()
         let geLng = (extent[2] - extent[0]) / 5
         let geLat = (extent[3] - extent[1]) / 5
@@ -424,7 +424,7 @@ export default {
         let type = this.radio;
         let isEmpty = false;
         let list = null;
-        if (type == 'SSH') {
+        if (type === 'SSH') {
           if (this.sshList.length === 0) {
             isEmpty = true;
           } else {
@@ -432,21 +432,21 @@ export default {
             this.getMiddle(list, this.select1);
 
           }
-        } else if (type == 'temp') {
+        } else if (type === 'temp') {
           if (this.tempList.length === 0) {
             isEmpty = true;
           } else {
             list = this.tempList;
             this.getMiddle(list, this.select1);
           }
-        } else if (type == 'SWH') {
+        } else if (type === 'SWH') {
           if (this.swhList.length === 0) {
             isEmpty = true;
           } else {
             list = this.swhList;
             this.getMiddle(list, this.select1);
           }
-        } else if (type == 'wave_direction') {
+        } else if (type === 'wave_direction') {
           if (this.waveList.length === 0) {
             isEmpty = true;
           } else {
@@ -461,7 +461,7 @@ export default {
         } else {
           let riqi = this.value1 + " " + this.value2;
           let shijianchuo = (new Date(riqi)).getTime(); //时间戳
-          for (let i = 0; i < this.wmsLayers.length; i++) { 
+          for (let i = 0; i < this.wmsLayers.length; i++) {
             this.maps[i] && this.maps[i].removeLayer(this.wmsLayers[i]);    //清空所有图层
             // this.maps[i] && this.maps[i].removeLayer(this.vectorLayers[i]); //清空所有图例
           }
@@ -476,51 +476,39 @@ export default {
             // document.getElementsByClassName("maptitle")[i].innerHTML = first_name + "_" + middle_name;
             var firstName = '';
             var middleName = '';
-            if(first_name == 'SSH'){
+            if (first_name === 'SSH') {
               firstName = '有效波高(ssh)';
-            }
-            else if(first_name == 'temp'){
+            } else if (first_name === 'temp') {
               firstName = '海温(temperature)';
-            }
-            else if(first_name == 'SWH'){
+            } else if (first_name === 'SWH') {
               firstName = '综合水位(swh)';
-            }
-            else if(first_name == 'wave_direction'){
+            } else if (first_name === 'wave_direction') {
               firstName = '波向(wave_direction)';
             }
 
-            if(middle_name == 'Real'){
+            if (middle_name === 'Real') {
               middleName = '真实值';
-            }
-            else if(middle_name == 'pred'){
+            } else if (middle_name === 'pred') {
               middleName = '预测值';
-            }
-            else if(middle_name == 'Corr'){
+            } else if (middle_name === 'Corr') {
               middleName = '订正值';
-            }
-            else if(middle_name == 'Error_Before'){
+            } else if (middle_name === 'Error_Before') {
               middleName = '订正前';
-            }
-            else if(middle_name == 'Error_After'){
+            } else if (middle_name === 'Error_After') {
               middleName = '订正后';
-            }
-            else if(middle_name == 'forecast'){
+            } else if (middle_name === 'forecast') {
               middleName = '预报值';
-            }
-            else if(middle_name == 'predict'){
+            } else if (middle_name === 'predict') {
               middleName = '预测值';
-            }
-            else if(middle_name == 'reanalysis'){
+            } else if (middle_name === 'reanalysis') {
               middleName = '再分析数据';
-            }
-            else if(middle_name == 'reanalysis-forecast'){
+            } else if (middle_name === 'reanalysis-forecast') {
               middleName = '再分析数据预报结果';
-             }
-            else if(middle_name == 'reanalysis-predict'){
+            } else if (middle_name === 'reanalysis-predict') {
               middleName = '再分析数据预报结果';
             }
-                        
-            document.getElementsByClassName("maptitle")[i].innerHTML = firstName + "_" + middleName;            
+
+            document.getElementsByClassName("maptitle")[i].innerHTML = firstName + "_" + middleName;
             if (first_name === 'temp') {
               if (middle_name === 'pred') {
                 middle_name = 'fore'
@@ -574,36 +562,36 @@ export default {
       let img = document.getElementsByClassName("legend1")[index];
       console.log(tileWMS)
       img.src = graphicUrl;
-      
-      // 在地图里添加图例
-      // var startMarker = new OlFeature({
-      //   type: 'icon',
-      //   geometry: new OlGeomPoint([this.coordinates[0]+5, this.coordinates[1]])
-      // })
 
-      // var vectorLayer = new OlLayerVector({
-      //   source: new OlSourceVector({
-      //     features: [startMarker]
-      //   }),
-      //   style: new OlStyleStyle({
-      //     image: new OlStyleIcon({
-      //       anchor: [0.5, 1],
-      //       src: graphicUrl
-            
-      //     }),
-      //     // 设置图片下面显示字体的样式和内容
-      //     text: new Text({
-      //       text: '图例', 
-      //       font: '14px font-size', 
-      //       fill: new Fill({
-      //         color: '#1CAF9A'
-      //       }),
-      //       offsetY: 10
-      //     })
-      //   })
-      // })
-      // this.vectorLayers.push(vectorLayer);
-      // map.addLayer(vectorLayer);
+      // 在地图里添加图例
+      var startMarker = new OlFeature({
+        type: 'icon',
+        geometry: new OlGeomPoint([this.coordinates[0] + 5, this.coordinates[1]])
+      })
+
+      var vectorLayer = new OlLayerVector({
+        source: new OlSourceVector({
+          features: [startMarker]
+        }),
+        style: new OlStyleStyle({
+          image: new OlStyleIcon({
+            anchor: [0.5, 1],
+            src: graphicUrl
+
+          }),
+          // 设置图片下面显示字体的样式和内容
+          text: new Text({
+            text: '图例',
+            font: '14px font-size',
+            fill: new Fill({
+              color: '#000000'
+            }),
+            offsetY: 10
+          })
+        })
+      })
+      this.vectorLayers.push(vectorLayer);
+      map.addLayer(vectorLayer);
     }
   },
 
@@ -616,7 +604,7 @@ export default {
 </script>
 
 <style>
-.mouse-position{
+.mouse-position {
   bottom: 50%;
 }
 

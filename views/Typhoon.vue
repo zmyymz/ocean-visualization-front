@@ -48,7 +48,7 @@
           <div style="margin-left:8%;">
             <el-radio-group clearable=true v-model="radio" @change="initSelect">
               <div class="type">
-                <el-radio :label='"wp"'>WP</el-radio>
+                <el-radio :label='"wp"'>西太平洋</el-radio>
                 <div class="select">
                   <el-select v-model="wp_value" placeholder="请选择" @change="getData">
                     <el-option
@@ -61,7 +61,7 @@
                 </div>
               </div>
               <div class="type">
-                <el-radio :label='"ep"'>EP</el-radio>
+                <el-radio :label='"ep"'>东太平洋</el-radio>
                 <div class="select">
                   <el-select v-model="ep_value" placeholder="请选择" @change="getData">
                     <el-option
@@ -74,7 +74,7 @@
                 </div>
               </div>
               <div class="type">
-                <el-radio :label='"na"'>NA</el-radio>
+                <el-radio :label='"na"'>北大西洋</el-radio>
                 <div class="select">
                   <el-select v-model="na_value" placeholder="请选择" @change="getData">
                     <el-option
@@ -519,6 +519,7 @@ export default {
           this.map.getView().setCenter(fromLonLat(position, 'EPSG:4326'));
           this.vectorMap.getView().setCenter(fromLonLat(position, 'EPSG:4326'));
           this.map.getView().setZoom(3);
+          this.vectorMap.getView().setZoom(5)
         }
 
         let speed = curPointData['max wind speed(intensity)']
@@ -624,7 +625,7 @@ export default {
           // url: "http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
           //url:'http://t4.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
           //url:'http://t4.tianditu.com/DataServer?T=ter_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
-          url:'http://t4.tianditu.com/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
+          url: 'http://t4.tianditu.com/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
         })
       });
       let map = new Map({
@@ -665,7 +666,7 @@ export default {
           // url: "http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
           //url:'http://t4.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
           //url:'http://t4.tianditu.com/DataServer?T=ter_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
-          url:'http://t4.tianditu.com/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
+          url: 'http://t4.tianditu.com/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
         })
       });
       let map2 = new Map({

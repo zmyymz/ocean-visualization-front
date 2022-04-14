@@ -254,7 +254,7 @@ export default {
       maps: [],
       wmsLayers: [],
       vectorLayers: [],
-      coordinates: [130, 12],
+      coordinates: [160, 6],
     };
   },
   components: {

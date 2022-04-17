@@ -301,7 +301,8 @@ export default {
         title: "谷歌矢量地图服务",
         source: new XYZ({
           // arcgis server
-          url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetWarm/MapServer/tile/{z}/{y}/{x}'
+          url: 'http://ocean-vis-http-server:8081/Ocean/{z}/{x}/{y}.png'
+          // url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetWarm/MapServer/tile/{z}/{y}/{x}'
           // url: 'http://t4.tianditu.com/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
         })
       });

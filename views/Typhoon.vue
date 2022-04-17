@@ -625,7 +625,10 @@ export default {
           // url: "http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
           //url:'http://t4.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
           //url:'http://t4.tianditu.com/DataServer?T=ter_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
-          url: 'http://t4.tianditu.com/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
+          // url: 'http://t4.tianditu.com/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
+          // url: 'http://localhost:8081/Typhoon/{z}/{x}/{y}.png'
+          url: 'http://ocean-vis-http-server:8081/Typhoon/{z}/{x}/{y}.png'
+
         })
       });
       let map = new Map({
@@ -666,7 +669,10 @@ export default {
           // url: "http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
           //url:'http://t4.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
           //url:'http://t4.tianditu.com/DataServer?T=ter_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
-          url: 'http://t4.tianditu.com/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
+          // url: 'http://t4.tianditu.com/DataServer?T=img_w&x={x}&y={y}&l={z}&tk=cbd3ea0a8f745a3699f7cd8bc68ae9b7'
+          // url: 'http://localhost:8081/Typhoon/{z}/{x}/{y}.png'
+          url: 'http://ocean-vis-http-server:8081/Typhoon/{z}/{x}/{y}.png'
+
         })
       });
       let map2 = new Map({

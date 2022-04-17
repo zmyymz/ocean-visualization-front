@@ -357,7 +357,7 @@ export default {
   methods: {
     fileSubmit() {
       let _this = this;
-      this.$MessageBox.alert('请将数据放置/home/user_typhoon_data/, 格式如下:<ul id="myUL">  <li><span class="caret">WP_solo/</span>   <ul class="nested"> <li><span class="caret">data_seq1/</span> <ul class="nested"> <li>tp_1_pl.nc</li><li>tp_2_pl.nc</li></ul></li><li>tp_seq1.txt</li></ul></li></ul>', '提示', {
+      this.$MessageBox.alert('请将数据放置/opt/temp/home/user_typhoon_data/, 格式如下:<ul id="myUL">  <li><span class="caret">WP_solo/</span>   <ul class="nested"> <li><span class="caret">data_seq1/</span> <ul class="nested"> <li>tp_1_pl.nc</li><li>tp_2_pl.nc</li></ul></li><li>tp_seq1.txt</li></ul></li></ul>', '提示', {
         confirmButtonText: '确定',
         dangerouslyUseHTMLString: true,
         callback: action => {

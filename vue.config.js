@@ -11,7 +11,8 @@ defineConfig(
     proxy: {
       '/vector': {
           // target: 'https://www.baidu.com/',//后端接口地址
-          target: 'http://localhost:8089/',
+          // target: 'http://localhost:8089/',
+          target: 'http://kartozageoserver:8080/',
           changeOrigin: true,//是否允许跨越
           ws:true,
           pathRewrite: {

@@ -63,7 +63,7 @@ export default {
         tdtLayer
       ],
       view: new View({
-        projection: "EPSG:3857",    //使用这个坐标系
+        projection: "EPSG:4326",    //使用这个坐标系
         center: fromLonLat([113, 10]),  //深圳
         zoom: 5
       })
